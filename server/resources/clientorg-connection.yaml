@@ -1,0 +1,159 @@
+name: hlf-network
+version: 1.0.0
+client:
+  organization: "<no value>"
+organizations:
+  ClientMSP:
+    mspid: ClientMSP
+    cryptoPath: /tmp/cryptopath
+    users: {}
+    peers:
+      - clientorg-peer0.fabric
+    orderers: []
+orderers: []
+peers:
+  clientorg-peer0.fabric:
+    url: grpcs://net-clientorg-peer0.edengineering.tk:443
+
+    grpcOptions:
+      allow-insecure: false
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICRjCCAeygAwIBAgIRAL1NdTL18kIy4l7yCTQ5zpYwCgYIKoZIzj0EAwIwbTEL
+        MAkGA1UEBhMCRVMxETAPBgNVBAcTCEFsaWNhbnRlMREwDwYDVQQJEwhBbGljYW50
+        ZTEZMBcGA1UEChMQS3VuZyBGdSBTb2Z0d2FyZTENMAsGA1UECxMEVGVjaDEOMAwG
+        A1UEAxMFdGxzY2EwHhcNMjMwNDEwMTg0MjIyWhcNMzMwNDExMTg0MjIyWjBtMQsw
+        CQYDVQQGEwJFUzERMA8GA1UEBxMIQWxpY2FudGUxETAPBgNVBAkTCEFsaWNhbnRl
+        MRkwFwYDVQQKExBLdW5nIEZ1IFNvZnR3YXJlMQ0wCwYDVQQLEwRUZWNoMQ4wDAYD
+        VQQDEwV0bHNjYTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABA8LlmSSbBOe1ICh
+        L3oGUGPomfs+2UhBCYXqbm3yHJtcK1AzBMaRlnMKJs0a+lnB2/OAdGm5UT3V+6E7
+        kld3C9mjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYI
+        KwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgSEecHwP8V55SHp6w
+        FTquti80myVYmK9dKxaaJMxfxnYwCgYIKoZIzj0EAwIDSAAwRQIhAIS4Hm9NWZP1
+        MX87qg/0uvc+7/LgYKHd6yaYvQrsAi/pAiA0Gus8VVFlzPAuNxawHIQ6VXfp5upa
+        VqOWzMQR4+5/OA==
+        -----END CERTIFICATE-----
+
+certificateAuthorities:
+  auditororg-ca.fabric:
+    url: https://net-auditororg-ca.edengineering.tk:443
+
+    registrar:
+      enrollId: enroll
+      enrollSecret: enrollpw
+
+    caName: ca
+    tlsCACerts:
+      pem:
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICfTCCAiKgAwIBAgIQQf9O2hmDHAoP1Ws/IYVXdjAKBggqhkjOPQQDAjBSMRMw
+          EQYDVQQGEwpDYWxpZm9ybmlhMQkwBwYDVQQHEwAxCTAHBgNVBAkTADEUMBIGA1UE
+          ChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzAeFw0yMzA0MTAxODQxNTVa
+          Fw0zMzA0MTExODQxNTVaMFIxEzARBgNVBAYTCkNhbGlmb3JuaWExCTAHBgNVBAcT
+          ADEJMAcGA1UECRMAMRQwEgYDVQQKEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFi
+          cmljMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0cCn7u6DfqQfsbovsJuLo2vs
+          PY15Kq5JFYGtD8lvg88DBeykZIjaTjWRLbs7Yp0tH6IQ+2hQsuQSUWHgmxlYnKOB
+          2TCB1jAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUF
+          BwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIH1cCsTsPWDEw4OZBzwXie3c
+          V3jxfq/LIgIwKv012LMcMGkGA1UdEQRiMGCCCWxvY2FsaG9zdIINYXVkaXRvcm9y
+          Zy1jYYIUYXVkaXRvcm9yZy1jYS5mYWJyaWOCIm5ldC1hdWRpdG9yb3JnLWNhLmVk
+          ZW5naW5lZXJpbmcudGuHBH8AAAGHBCIeIYswCgYIKoZIzj0EAwIDSQAwRgIhAKur
+          V1rs6GShCl95evuxBfboTDM5FkM7uHi31sj+9sMFAiEAmcDpb+6h+a2jOWYv6paG
+          N71hZNDMQBU3D7GxIfb7pbU=
+          -----END CERTIFICATE-----
+
+  clientorg-ca.fabric:
+    url: https://net-clientorg-ca.edengineering.tk:443
+
+    registrar:
+      enrollId: enroll
+      enrollSecret: enrollpw
+
+    caName: ca
+    tlsCACerts:
+      pem:
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICeDCCAh+gAwIBAgIQcD077O1TLdSzNkpw1dUbWDAKBggqhkjOPQQDAjBSMRMw
+          EQYDVQQGEwpDYWxpZm9ybmlhMQkwBwYDVQQHEwAxCTAHBgNVBAkTADEUMBIGA1UE
+          ChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzAeFw0yMzA0MTAxODQyMjJa
+          Fw0zMzA0MTExODQyMjJaMFIxEzARBgNVBAYTCkNhbGlmb3JuaWExCTAHBgNVBAcT
+          ADEJMAcGA1UECRMAMRQwEgYDVQQKEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFi
+          cmljMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZbGaeKTIea6D0SIQYgzP6uY7
+          FfwRDIo33N5aA8+jbuhFdjq9VWdw1qukRt8iXOAF61phLEH9UhIOvJeKTRXtHKOB
+          1jCB0zAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUF
+          BwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIM0c506TrjmwV7n1TVyXnLgK
+          NIkHc1b6/8FdeqRr+AQdMGYGA1UdEQRfMF2CCWxvY2FsaG9zdIIMY2xpZW50b3Jn
+          LWNhghNjbGllbnRvcmctY2EuZmFicmljgiFuZXQtY2xpZW50b3JnLWNhLmVkZW5n
+          aW5lZXJpbmcudGuHBH8AAAGHBCIeIYswCgYIKoZIzj0EAwIDRwAwRAIgWjX40XBj
+          Byg56kdqqypjECtxY14pF8enn+UJVP0IpXYCIEI5elS3tgkwEjMTefDPRz/fgI8a
+          LHyGVXQNO92fX4Q1
+          -----END CERTIFICATE-----
+
+  managerorg-ca.fabric:
+    url: https://net-managerorg-ca.edengineering.tk:443
+
+    registrar:
+      enrollId: enroll
+      enrollSecret: enrollpw
+
+    caName: ca
+    tlsCACerts:
+      pem:
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICfTCCAiKgAwIBAgIQTqUX92brSbQQU4aOh37hwDAKBggqhkjOPQQDAjBSMRMw
+          EQYDVQQGEwpDYWxpZm9ybmlhMQkwBwYDVQQHEwAxCTAHBgNVBAkTADEUMBIGA1UE
+          ChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzAeFw0yMzA0MTAxODQyNTla
+          Fw0zMzA0MTExODQyNTlaMFIxEzARBgNVBAYTCkNhbGlmb3JuaWExCTAHBgNVBAcT
+          ADEJMAcGA1UECRMAMRQwEgYDVQQKEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFi
+          cmljMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElXENfbjNd0lesVwjOJBnFpT5
+          nRRuBaITCsagYBXTgmxcIV7G+2gENMLdr72nOqw2r5MeK4tMfuaw6pj00kcyP6OB
+          2TCB1jAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUF
+          BwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIEgOW40fmK9VBehyoJaCz+R3
+          Q4rhbVzZFPKU1esukQ10MGkGA1UdEQRiMGCCCWxvY2FsaG9zdIINbWFuYWdlcm9y
+          Zy1jYYIUbWFuYWdlcm9yZy1jYS5mYWJyaWOCIm5ldC1tYW5hZ2Vyb3JnLWNhLmVk
+          ZW5naW5lZXJpbmcudGuHBH8AAAGHBCIeIYswCgYIKoZIzj0EAwIDSQAwRgIhALnH
+          Mhq23NxNxJnuzXr6hH7QQYD1/KIhmZEsRYlnHIEBAiEAsDbnBviOqQ/vkeDvlHZu
+          W6m0bWQHnJ7uPe4UxX10z/E=
+          -----END CERTIFICATE-----
+
+  ord-ca.fabric:
+    url: https://net-ord-ca.edengineering.tk:443
+
+    registrar:
+      enrollId: enroll
+      enrollSecret: enrollpw
+
+    caName: ca
+    tlsCACerts:
+      pem:
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICZzCCAg2gAwIBAgIQaoGFfQCvo4bE5osRIG5+KDAKBggqhkjOPQQDAjBSMRMw
+          EQYDVQQGEwpDYWxpZm9ybmlhMQkwBwYDVQQHEwAxCTAHBgNVBAkTADEUMBIGA1UE
+          ChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzAeFw0yMzA0MTAxODQxMTJa
+          Fw0zMzA0MTExODQxMTJaMFIxEzARBgNVBAYTCkNhbGlmb3JuaWExCTAHBgNVBAcT
+          ADEJMAcGA1UECRMAMRQwEgYDVQQKEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFi
+          cmljMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3X325PVW98OcpTvh7v72sVF/
+          i6xvGVwX7OxnIiWNOgufhV5yiZa8EksXw+kajnCfr23EmBxUAIQTexTcdeqlgKOB
+          xDCBwTAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUF
+          BwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIF1Vbe5mHAccNAgUq8dexywL
+          NTxUrI2NMf4LSb9iGua8MFQGA1UdEQRNMEuCCWxvY2FsaG9zdIIGb3JkLWNhgg1v
+          cmQtY2EuZmFicmljghtuZXQtb3JkLWNhLmVkZW5naW5lZXJpbmcudGuHBH8AAAGH
+          BCIeIYswCgYIKoZIzj0EAwIDSAAwRQIhAJyzPA3AVeDSOQtqUZ9h/R1yt31Sew3l
+          u9/gxKbLwFKEAiBBCdnYef/hXGu+Rjz3SjYx50xmGpqvzCP46+2oetW/lA==
+          -----END CERTIFICATE-----
+
+channels:
+  test:
+    orderers: []
+    peers:
+      clientorg-peer0.fabric:
+        discover: true
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
