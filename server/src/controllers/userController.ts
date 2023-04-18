@@ -32,7 +32,7 @@ const login = async (req, res) => {
         eck: encryptedCertificate,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30m" }
+      { expiresIn: "2h" }
     );
 
     // const refreshToken = jwt.sign(

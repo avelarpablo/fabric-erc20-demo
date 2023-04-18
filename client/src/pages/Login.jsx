@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getUsername } from "../tools";
+import { getUsername, VITE_GATEWAY_CLIENT_API } from "../tools";
 import Container from "@mui/material/Container";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-const VITE_GATEWAY_API = import.meta.env.VITE_GATEWAY_API;
 const theme = createTheme();
 
 const Login = () => {
@@ -53,7 +52,7 @@ const Login = () => {
     setLoading(true);
     let response = await axios
       .post(
-        `${VITE_GATEWAY_API}/users/login`,
+        `${VITE_GATEWAY_CLIENT_API}/users/login`,
         {
           username,
           password,
@@ -85,7 +84,7 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">

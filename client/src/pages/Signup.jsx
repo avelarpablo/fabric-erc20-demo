@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUsername } from "../tools";
+import { VITE_GATEWAY_CLIENT_API, getUsername } from "../tools";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Avatar,
@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
-const VITE_GATEWAY_API = import.meta.env.VITE_GATEWAY_API;
 const theme = createTheme();
 
 const Signup = () => {
@@ -61,9 +60,10 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true);
     const response = await axios
       .post(
-        `${VITE_GATEWAY_API}users/signup`,
+        `${VITE_GATEWAY_CLIENT_API}/users/signup`,
         {
           username,
           password,
@@ -80,6 +80,7 @@ const Signup = () => {
       });
 
     if (response.status === 200) {
+
       navigate("/login"); // change using navigate
     }
   };
