@@ -33,10 +33,16 @@ export const getClientAccountID = async () => {
   }
 };
 
-export const getClientAccountBalance = async () => {
+export const getClientAccountBalance = async (admin) => {
+  let url = "";
+  if(admin) {
+    url = VITE_GATEWAY_MANAGER_API
+  } else {
+    url = VITE_GATEWAY_CLIENT_API
+  }
   const respose = await axios
     .post(
-      `${VITE_GATEWAY_CLIENT_API}/token/evaluate`,
+      `${url}/token/evaluate`,
       { fcn: "ClientAccountBalance" },
       { withCredentials: true }
     )

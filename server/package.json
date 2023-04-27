@@ -5,7 +5,8 @@
   "scripts": {
     "start": "dotenv -e .env.org1 ts-node-dev ./src/server.ts",
     "server:org1:dev": "dotenv -e .env.org1 ts-node-dev ./src/server.ts",
-    "server:man:dev": "dotenv -e .env.man ts-node-dev ./src/server.ts"
+    "server:man:dev": "dotenv -e .env.man ts-node-dev ./src/server.ts",
+    "server:mant:dev": "dotenv -e .env.mant ts-node-dev ./src/server.ts"
   },
   "dependencies": {
     "@hyperledger/fabric-gateway": "^1.2.2",

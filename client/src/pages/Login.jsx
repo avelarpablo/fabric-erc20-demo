@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { getUsername, VITE_GATEWAY_CLIENT_API } from "../tools";
 import Container from "@mui/material/Container";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Avatar,
   Box,
-  Button,
   CssBaseline,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Grid,
   TextField,
   ThemeProvider,
@@ -21,23 +14,48 @@ import {
   createTheme,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { clearError, doLogin, reLogin } from "../redux/actions";
+import DialogPopUp from "../components/DialogPopUp/DialogPopUp";
 
 const theme = createTheme();
 
-const Login = () => {
+const Login = ({ type }) => {
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.user.loginSuccess);
+  const error = useSelector((state) => state.user.error);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState("");
+
+  const user = useSelector((state) => state.user.userData.username);
+  const admin = useSelector((state) => state.user.admin);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = getUsername();
-    if (user) {
-      navigate("/");
+    if (user && !admin) {
+      dispatch(reLogin());
+      if (type === "true") {
+        navigate("/adminhome");
+      } else {
+        navigate("/");
+      }
     }
   });
+
+  useEffect(() => {
+    if (login) {
+      if (type === "true") {
+        navigate("/adminhome");
+      } else {
+        navigate("/");
+      }
+    }
+    if (error) {
+      setOpen(true);
+    }
+    setLoading(false);
+  }, [login, error]);
 
   const onUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -50,26 +68,14 @@ const Login = () => {
   const onLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let response = await axios
-      .post(
-        `${VITE_GATEWAY_CLIENT_API}/users/login`,
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .catch((err) => {
-        setError("Invalid username or password");
-        setOpen(true);
-        setLoading(false);
-      });
-    if (response.status === 200) {
-      localStorage.setItem("jwt", response.data.jwt);
-      navigate("/");
-    }
+
+    // update login after dispatch
+    dispatch(doLogin(username, password, type));
+  };
+
+  const onDialogClose = () => {
+    setOpen(false);
+    dispatch(clearError());
   };
 
   return (
@@ -88,7 +94,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            {admin==="true" && "Admin "}Login
           </Typography>
           <Box component="form" onSubmit={onLogin}>
             <TextField
@@ -117,29 +123,24 @@ const Login = () => {
             >
               Login
             </LoadingButton>
-            <Grid container>
-              {/* <Grid item xs>
-                <Link to="/forgot">Forgot password?</Link>
-                Forgot password?
-              </Grid> */}
-              <Grid item margin="normal">
-                Don't have an account?{" - "}
-                <Link to="/signup" variant="body2">
-                  Sign Up
-                </Link>
+            {admin !== "true" && (
+              <Grid container>
+                <Grid item margin="normal">
+                  Don't have an account?{" - "}
+                  <Link to="/signup" variant="body2">
+                    Sign Up
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Box>
         </Box>
-        <Dialog open={open} onClose={() => setOpen(false)}>
-          <DialogTitle>Alert</DialogTitle>
-          <DialogContent>
-            <DialogContentText>{error}</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        <DialogPopUp
+          open={open}
+          title="Alert"
+          message={error}
+          close={onDialogClose}
+        />
       </Container>
     </ThemeProvider>
   );

@@ -1,56 +1,29 @@
 import { useEffect, useState } from "react";
-import {
-  VITE_GATEWAY_CLIENT_API,
-  getClientAccountBalance,
-  getTokenName,
-  getTokenSymbol,
-  getUsername,
-} from "../../tools";
+import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { doLogout, getClientAccountBalance, getTokenName, getTokenSymbol } from "../../redux/actions";
 
-const Navbar = () => {
-  const username = getUsername();
-  const [coinName, setCoinName] = useState("USD");
-  const [coinSymbol, setCoinSymbol] = useState("$");
-  const [balance, setBalance] = useState(0);
+const Navbar = ({admin}) => {
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.userData.username);
+  const coinName = useSelector((state) => state.token.name);
+  const coinSymbol = useSelector((state) => state.token.symbol);
+  const balance = useSelector((state) => state.token.balance);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getBalance = async () => {
-      const clientBalance = await getClientAccountBalance();
-      setBalance(clientBalance);
-    };
-    getBalance();
-
-    const getCoinName = async () => {
-      const coinName = await getTokenName();
-      setCoinName(coinName);
-    };
-    getCoinName();
-
-    const getCoinSymbol = async () => {
-      const coinSymbol = await getTokenSymbol();
-      setCoinSymbol(coinSymbol);
-    };
-    getCoinSymbol();
+    dispatch(getClientAccountBalance(admin))
+    dispatch(getTokenName(admin));
+    dispatch(getTokenSymbol(admin));
   }, []);
 
   const onLogout = async () => {
-    const response = await axios.post(
-      `${VITE_GATEWAY_CLIENT_API}/users/logout`,
-      {},
-      { withCredentials: true }
-    );
-    if (response.status !== 200) {
-      alert("Something went wrong");
-    } else {
-      localStorage.removeItem("jwt");
+    dispatch(doLogout()).then(()=> {
       navigate("/login");
-    }
+    })
   };
 
   return (
@@ -63,7 +36,7 @@ const Navbar = () => {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Token ERC20 - Demo
+            Demo
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Typography variant="h6" component="div" noWrap sx={{ flewGrow: 1 }}>
