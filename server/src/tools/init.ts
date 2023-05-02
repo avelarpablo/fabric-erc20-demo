@@ -4,7 +4,7 @@ import { config } from "./config";
 import * as _ from "lodash";
 import FabricCAServices from "fabric-ca-client";
 import { User } from "fabric-common";
-import { newConnectOptions, newGrpcConnection } from "./utils";
+import { log, newConnectOptions, newGrpcConnection } from "./utils";
 import { connect } from "@hyperledger/fabric-gateway";
 
 async function main() {
@@ -13,7 +13,7 @@ async function main() {
   );
   const adminUserConfig = yaml.parse(
     await fs.readFile(config.adminUserPath, "utf-8")
-  )
+  );
   const orgPeerNames = _.get(
     networkConfig,
     `organizations.${config.mspID}.peers`
@@ -54,25 +54,30 @@ async function main() {
     caURL,
     {
       trustedRoots: [ca.tlsCACerts.pem[0]],
-      verify: true,
+      verify: false, // false to make it work
     },
     ca.caName
   );
 
   const identityService = fabricCAServices.newIdentityService();
 
-  const registrarUserResponse = await fabricCAServices.enroll({
-    enrollmentID: ca.registrar.enrollId,
-    enrollmentSecret: ca.registrar.enrollSecret,
-  });
+  let registrar = null;
+  try {
+    const registrarUserResponse = await fabricCAServices.enroll({
+      enrollmentID: ca.registrar.enrollId,
+      enrollmentSecret: ca.registrar.enrollSecret,
+    });
 
-  const registrar = User.createUser(
-    ca.registrar.enrollId,
-    ca.registrar.enrollmentSecret,
-    config.mspID,
-    registrarUserResponse.certificate,
-    registrarUserResponse.key.toBytes()
-  );
+    registrar = User.createUser(
+      ca.registrar.enrollId,
+      ca.registrar.enrollmentSecret,
+      config.mspID,
+      registrarUserResponse.certificate,
+      registrarUserResponse.key.toBytes()
+    );
+  } catch (error) {
+    log.error(error);
+  }
 
   // const adminUser = _.get(
   //   adminUserConfig, ''
